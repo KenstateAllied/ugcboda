@@ -364,7 +364,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_map:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: flutter_map
       sha256: f7d0379477274f323c3f3bc12d369a2b42eb86d1e7bd2970ae1ea3cff782449a
@@ -718,7 +718,7 @@ packages:
     source: hosted
     version: "4.9.0"
   latlong2:
-    dependency: "direct overridden"
+    dependency: "direct main"
     description:
       name: latlong2
       sha256: "98227922caf49e6056f91b6c56945ea1c7b166f28ffcd5fb8e72fc0b453cc8fe"
