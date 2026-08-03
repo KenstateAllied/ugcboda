@@ -31,7 +31,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: sharedAppBar(context, 'TuShare', LineIcons.alternateCar),
+      appBar: sharedAppBar(context, 'UGCBoda', LineIcons.alternateCar),
       body: homeBody(context),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Share your ride',

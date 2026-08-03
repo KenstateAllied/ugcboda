@@ -18,7 +18,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              'Login in to your account',
+              'Login to your account',
               style: Theme.of(context).textTheme.titleLarge,
             ),
             SizedBox(height: 12.0),
