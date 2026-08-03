@@ -8,7 +8,7 @@ class ApiConstants {
   /// http://192.168.8.153:8000
 
   static final String baseURL =
-      dotenv.env['API_URL'] ?? "http://192.168.61.22:8000";
+      dotenv.env['API_URL'] ?? "http://192.168.62.118:8000";
 
   static final String mediaURL = "$baseURL/uploads";
 

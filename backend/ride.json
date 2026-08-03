@@ -1,0 +1,10 @@
+{
+  "vehicle_type": "Sedan",
+  "vehicle_model": "Toyota Corolla",
+  "vehicle_plate": "KDA123X",
+  "departure_location": "Eldoret CBD",
+  "destination": "Nairobi CBD",
+  "departure_time": "2026-08-05T08:00:00",
+  "available_seats": 3,
+  "price_per_seat": 800
+}
