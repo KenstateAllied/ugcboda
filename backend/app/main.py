@@ -13,6 +13,17 @@ app = FastAPI(
     title="RideShare API",
     version="1.0.0",
 )
+from fastapi.staticfiles import StaticFiles
+from pathlib import Path
+
+# ... your existing app = FastAPI() setup ...
+
+UPLOAD_DIR = Path("uploads")
+UPLOAD_DIR.mkdir(exist_ok=True)  # ensure it exists at startup
+
+app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
+
+
 
 app.add_middleware(
     CORSMiddleware,
