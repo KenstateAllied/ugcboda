@@ -1,10 +1,12 @@
+// lib/helpers/map_helper.dart
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart' hide MapController;
+import 'package:latlong2/latlong.dart';
 import 'package:get/get.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ride_share/utils/constants/colors.dart';
 import 'package:ride_share/controllers/map_controller.dart';
-import 'package:universe/universe.dart' hide MapController;
 // import 'package:geolocator/geolocator.dart';
 
 class MapHelper {
@@ -45,38 +47,43 @@ class FullScreenMapView extends StatelessWidget {
         padding: const EdgeInsets.only(top: 20.0),
         child: Stack(
           children: [
-            U.OpenStreetMap(
-              center: [latitude, longitude],
-              type: OpenStreetMapType.HOT,
-              zoom: 17,
-              markers: U.MarkerLayer(
-                data: isUsingDefaultLocation
-                    ? 'Uasin Gishu, Kenya'
-                    : 'The pin shows your current location',
-                [
-                  // marker to display user's current location
-                  U.Marker(
-                    [latitude, longitude],
-                    widget: MarkerIcon(
-                      icon: LineIcons.mapPin,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-                onTap: (latlng, data) {
-                  // when the user taps the marker, display snackbar with info in `data`
-                  Get.showSnackbar(GetSnackBar(
-                    backgroundColor: Colors.transparent,
-                    duration: Duration(seconds: 7),
-                    messageText: AwesomeSnackbarContent(
-                      title: 'You popped me!',
-                      message: '$data',
-                      messageTextStyle: TextStyle(fontSize: 16.0),
-                      contentType: ContentType.help,
-                    ),
-                  ));
-                },
+              FlutterMap(
+              options: MapOptions(
+                initialCenter: LatLng(latitude, longitude),
+                initialZoom: 17,
               ),
+              children: [
+                TileLayer(
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                  userAgentPackageName: 'com.example.ride_share',
+                ),
+                MarkerLayer(
+                  markers: [
+                    Marker(
+                      point: LatLng(latitude, longitude),
+                      width: 50,
+                      height: 50,
+                      child: GestureDetector(
+                        onTap: () {
+                          Get.showSnackbar(GetSnackBar(
+                            backgroundColor: Colors.transparent,
+                            duration: Duration(seconds: 7),
+                            messageText: AwesomeSnackbarContent(
+                              title: 'You popped me!',
+                              message: isUsingDefaultLocation
+                                  ? 'Uasin Gishu, Kenya'
+                                  : 'The pin shows your current location',
+                              messageTextStyle: TextStyle(fontSize: 16.0),
+                              contentType: ContentType.help,
+                            ),
+                          ));
+                        },
+                        child: Icon(LineIcons.mapPin, color: Colors.red, size: 34),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
             // button to exit fullscreen
             Positioned(

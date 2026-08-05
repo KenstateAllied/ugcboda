@@ -37,7 +37,7 @@ async def signup(
     username: str = Form(...),
  
     mobile_number: str = Form(...),
-    gender: str = Form(...),
+    UserType: str = Form(...),
     email: str = Form(...),
 
     password: str = Form(...),
@@ -88,7 +88,7 @@ async def signup(
         last_name=last_name,
         username=username,
         mobile_number=mobile_number,
-        gender=gender,
+        UserType=UserType,
         email=email,
         password=hash_password(password),
         profile_image=image_path,

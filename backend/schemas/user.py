@@ -9,7 +9,7 @@ class UserCreate(BaseModel):
     last_name: str
     username: str
     mobile_number: str
-    gender: str
+    UserType: str
     email: EmailStr
     password: str
 
@@ -20,7 +20,7 @@ class UserResponse(BaseModel):
     last_name: str
     username: str
     mobile_number: str
-    gender: str
+    UserType: str
     email: str
     profile_image: Optional[str] = None
     created_at: datetime

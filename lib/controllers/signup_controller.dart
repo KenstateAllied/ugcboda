@@ -23,7 +23,7 @@ class SignupController extends GetxController {
 
   // Observable Variables
   final Rx<File?> selectedImage = Rx<File?>(null);
-  final RxString selectedGender = 'Male'.obs;
+  final RxString selectedUserType = 'Rider'.obs;
   final RxBool isLoading = false.obs;
 
   /// Pick profile image
@@ -122,7 +122,7 @@ class SignupController extends GetxController {
         lastName,
         username,
         mobileNumber,
-        selectedGender.value,
+        selectedUserType.value,
         email,
         password,
         selectedImage.value,

@@ -64,7 +64,7 @@ static Future<Map<String, dynamic>?> signup(
   String lastName,
   String username,
   String mobileNumber,
-  String gender,
+  String UserType,
   String email,
   String password,
   File? profileImage,
@@ -81,7 +81,7 @@ static Future<Map<String, dynamic>?> signup(
     request.fields["last_name"] = lastName;
     request.fields["username"] = username;
     request.fields["mobile_number"] = mobileNumber;
-    request.fields["gender"] = gender;
+    request.fields["UserType"] = UserType;
     request.fields["email"] = email;
     request.fields["password"] = password;
 

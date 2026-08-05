@@ -19,7 +19,7 @@ class User(Base):
 
     mobile_number = Column(String(30), nullable=False)
 
-    gender = Column(String(20), nullable=False)
+    UserType = Column("gender", String(20), nullable=False)
 
     password = Column(String(255), nullable=False)
 

@@ -85,8 +85,8 @@ class LoginForm extends StatelessWidget {
           ),
         ),
         floatingLabelBehavior: FloatingLabelBehavior.auto,
-        labelText: "Username or email",
-        hintText: "Enter your username or email",
+        labelText: "Username",
+        hintText: "Enter your username",
         prefixIcon: Padding(
           padding: EdgeInsets.only(left: 4.0),
           child: Icon(LineIcons.user),

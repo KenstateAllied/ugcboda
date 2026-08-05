@@ -47,7 +47,7 @@ class SignupForm extends StatelessWidget {
             phoneField(),
 
             const SizedBox(height: 16),
-            genderField(),
+            UserTypeField(),
 
             const SizedBox(height: 16),
 
@@ -151,28 +151,28 @@ class SignupForm extends StatelessWidget {
     );
   }
 
-  Widget genderField() {
+  Widget UserTypeField() {
     return Obx(
       () => DropdownButtonFormField<String>(
-        value: signupController.selectedGender.value,
+        value: signupController.selectedUserType.value,
         decoration: const InputDecoration(
-          labelText: "Gender",
+          labelText: "User Type",
           border: OutlineInputBorder(),
           prefixIcon: Icon(LineIcons.venusMars),
         ),
         items: const [
           DropdownMenuItem(
-            value: "Male",
-            child: Text("Male"),
+            value: "Rider",
+            child: Text("Rider"),
           ),
           DropdownMenuItem(
-            value: "Female",
-            child: Text("Female"),
+            value: "Client",
+            child: Text("Client"),
           ),
         ],
         onChanged: (value) {
           if (value != null) {
-            signupController.selectedGender.value = value;
+            signupController.selectedUserType.value = value;
           }
         },
       ),
