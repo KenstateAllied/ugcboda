@@ -49,6 +49,10 @@
 		<true/>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>Allow access to your location to show nearby rides and pickup points.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>Allow access to your location while using the app to display your current position on the map.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>Select an image file</string>
 		<key>NSCameraUsageDescription</key>

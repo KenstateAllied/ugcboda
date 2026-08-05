@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,10 +26,25 @@ class MapController extends GetxController {
   Future<void> fetchLocation() async {
     isLoading(true);
     try {
-      final position = await Geolocator.getCurrentPosition();
+      final position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: Duration(seconds: 15),
+      );
       latitude.value = position.latitude;
       longitude.value = position.longitude;
       isUsingDefaultLocation.value = false;
+    } on TimeoutException catch (_) {
+      final lastPosition = await Geolocator.getLastKnownPosition();
+      if (lastPosition != null) {
+        latitude.value = lastPosition.latitude;
+        longitude.value = lastPosition.longitude;
+        isUsingDefaultLocation.value = false;
+      } else {
+        latitude.value = uasinGishuLatitude;
+        longitude.value = uasinGishuLongitude;
+        isUsingDefaultLocation.value = true;
+        throw 'Unable to fetch current location. Using default location.';
+      }
     } finally {
       isLoading(false);
     }
@@ -42,42 +59,26 @@ class MapController extends GetxController {
       serviceEnabled = await Geolocator.isLocationServiceEnabled();
 
       if (!serviceEnabled) {
-        // Location services are not enabled don't continue
-        // accessing the position and request users of the
-        // App to enable the location services.
         throw 'Location services disabled! Showing Uasin Gishu instead.';
       }
 
       isLoading(true);
       permission = await Geolocator.checkPermission();
 
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.unableToDetermine) {
+        permission = await Geolocator.requestPermission();
+      }
+
       if (permission == LocationPermission.whileInUse ||
           permission == LocationPermission.always) {
         await fetchLocation();
       } else if (permission == LocationPermission.denied) {
-        // Request permission only if it was previously denied (but not forever)
-        permission = await Geolocator.requestPermission();
-        isLoading(true);
-        if (permission == LocationPermission.denied) {
-          // Permissions are denied, next time you could try
-          // requesting permissions again (this is also where
-          // Android's shouldShowRequestPermissionRationale
-          // returned true. According to Android guidelines
-          // your App should show an explanatory UI now.
-          isLoading(false);
-
-          latitude.value = uasinGishuLatitude;
-          longitude.value = uasinGishuLongitude;
-          isUsingDefaultLocation.value = true;
-
-          throw 'Location permissions are denied';
-        } else {
-          await fetchLocation();
-        }
+        latitude.value = uasinGishuLatitude;
+        longitude.value = uasinGishuLongitude;
+        isUsingDefaultLocation.value = true;
+        throw 'Location permissions are denied';
       } else if (permission == LocationPermission.deniedForever) {
-        isLoading(false);
-        // Permissions are denied forever, handle appropriately.
-
         latitude.value = uasinGishuLatitude;
         longitude.value = uasinGishuLongitude;
         isUsingDefaultLocation.value = true;

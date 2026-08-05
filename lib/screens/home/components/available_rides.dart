@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:ride_share/controllers/ride_controller.dart';
+import 'package:ride_share/screens/slot/components/map_widget.dart';
 import 'package:ride_share/utils/constants/api_endpoints.dart';
 import 'package:ride_share/utils/constants/colors.dart';
 
@@ -19,7 +20,11 @@ class AvailableRides extends StatelessWidget {
     return Column(
       children: [
         searchForAvailableRidesTextField(),     // text field to search for available rides
-        searchResults(context),
+        SizedBox(
+          height: 250,
+          child: MapWidget(),
+        ),
+        Expanded(child: searchResults(context)),
       ],
     );
   }
