@@ -1,10 +1,12 @@
 // lib/controllers/map_controller.dart
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:http/http.dart' as http;
 
 class MapController extends GetxController {
   // Eldoret is the county headquarters and provides a useful local map
@@ -14,6 +16,10 @@ class MapController extends GetxController {
 
   var latitude = uasinGishuLatitude.obs;
   var longitude = uasinGishuLongitude.obs;
+  var destinationLatitude = 0.0.obs;
+  var destinationLongitude = 0.0.obs;
+  var destinationName = ''.obs;
+  var hasDestination = false.obs;
   var isLoading = false.obs;
   var isUsingDefaultLocation = true.obs;
 
@@ -46,6 +52,54 @@ class MapController extends GetxController {
         isUsingDefaultLocation.value = true;
         throw 'Unable to fetch current location. Using default location.';
       }
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> searchDestination(String destination) async {
+    final query = destination.trim();
+    if (query.isEmpty) {
+      hasDestination.value = false;
+      destinationName.value = '';
+      return;
+    }
+
+    isLoading(true);
+    try {
+      final url = Uri.parse(
+        'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=${Uri.encodeQueryComponent(query)}',
+      );
+      final response = await http.get(url, headers: {
+        'User-Agent': 'ride_share_app',
+        'Accept-Language': 'en',
+      });
+
+      if (response.statusCode != 200) {
+        throw 'Unable to search destination.';
+      }
+
+      final results = json.decode(response.body) as List<dynamic>;
+      if (results.isEmpty) {
+        throw 'Destination not found.';
+      }
+
+      final first = results.first as Map<String, dynamic>;
+      destinationLatitude.value = double.tryParse(first['lat']?.toString() ?? '') ?? uasinGishuLatitude;
+      destinationLongitude.value = double.tryParse(first['lon']?.toString() ?? '') ?? uasinGishuLongitude;
+      destinationName.value = query;
+      hasDestination.value = true;
+    } catch (e) {
+      hasDestination.value = false;
+      Get.showSnackbar(GetSnackBar(
+        backgroundColor: Colors.transparent,
+        duration: Duration(seconds: 7),
+        messageText: AwesomeSnackbarContent(
+          title: 'Search failed',
+          message: '$e',
+          contentType: ContentType.failure,
+        ),
+      ));
     } finally {
       isLoading(false);
     }

@@ -3,6 +3,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:ride_share/controllers/map_controller.dart';
 import 'package:ride_share/controllers/ride_controller.dart';
 import 'package:ride_share/screens/slot/components/map_widget.dart';
 import 'package:ride_share/utils/constants/api_endpoints.dart';
@@ -13,6 +14,7 @@ class AvailableRides extends StatelessWidget {
     super.key,
   });
   final RideController rideController = Get.put(RideController());    // Inject controller
+  final MapController mapController = Get.put(MapController());
   final TextEditingController searchController = TextEditingController();     // Controller for search input
 
   @override
@@ -114,6 +116,7 @@ class AvailableRides extends StatelessWidget {
             onPressed: () {
               searchController.clear();
               rideController.availableRides.clear();    // clear search results in UI
+              mapController.hasDestination.value = false;
             },
             icon: Icon(LineIcons.backspace),
           )
@@ -127,6 +130,7 @@ class AvailableRides extends StatelessWidget {
         onSubmitted: (value) {
           if (value.isNotEmpty) {
             rideController.fetchAvailableRides(value);
+            mapController.searchDestination(value);
           }
         },
       ),

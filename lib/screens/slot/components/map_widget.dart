@@ -26,23 +26,26 @@ class MapWidget extends StatelessWidget {
       return Stack(
         children: [
           U.OpenStreetMap(
-            center: [
-              mapController.latitude.value,
-              mapController.longitude.value
-            ],
+            center: mapController.hasDestination.value
+                ? [mapController.destinationLatitude.value, mapController.destinationLongitude.value]
+                : [mapController.latitude.value, mapController.longitude.value],
             type: OpenStreetMapType.HOT,
             zoom: 14,
             markers: U.MarkerLayer(
-              data: mapController.isUsingDefaultLocation.value
-                  ? 'Uasin Gishu, Kenya'
-                  : 'The pin shows your current location',
+              data: mapController.hasDestination.value
+                  ? 'Destination: ${mapController.destinationName.value}'
+                  : mapController.isUsingDefaultLocation.value
+                      ? 'Uasin Gishu, Kenya'
+                      : 'The pin shows your current location',
               [
-                // marker to display user's current location
+                // marker to display either destination or user's current location
                 U.Marker(
-                  [mapController.latitude.value, mapController.longitude.value],
+                  mapController.hasDestination.value
+                      ? [mapController.destinationLatitude.value, mapController.destinationLongitude.value]
+                      : [mapController.latitude.value, mapController.longitude.value],
                   widget: MarkerIcon(
                     icon: LineIcons.mapPin,
-                    color: Colors.red,
+                    color: mapController.hasDestination.value ? Colors.green : Colors.red,
                   ),
                 ),
               ],
