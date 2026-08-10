@@ -45,7 +45,7 @@ class _CarSlotState extends State<CarSlot> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('Car slots'),
+        title: Text('Bike'),
       ),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),

@@ -31,7 +31,7 @@ class VehicleImageAndPassengersSittingPositions extends StatelessWidget {
                     bottomRight: Radius.circular(16.0),
                   ),
                   child: Image.asset(
-                    'assets/images/top-view/car/car-top-view.jpeg',
+                    'assets/images/top-view/car/bike.jpeg',
                     fit: BoxFit.cover,
                   ),
                 ),
